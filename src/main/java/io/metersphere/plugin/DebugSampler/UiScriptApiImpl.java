@@ -1,12 +1,12 @@
 package io.metersphere.plugin.DebugSampler;
 
 import com.alibaba.fastjson.JSON;
+import io.metersphere.plugin.DebugSampler.sampler.SelectParams;
 import io.metersphere.plugin.core.api.UiScriptApi;
 import io.metersphere.plugin.core.ui.PluginResource;
 import io.metersphere.plugin.core.ui.UiScript;
 import io.metersphere.plugin.core.utils.LogUtil;
-import io.metersphere.plugin.DebugSampler.sampler.SelectParams;
-import org.apache.commons.io.IOUtils;
+
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class UiScriptApiImpl extends UiScriptApi {
         LogUtil.info("开始初始化脚本内容 ");
         List<UiScript> uiScripts = new LinkedList<>();
         String script = getJson("/json/ui.json");
-        UiScript uiScript = new UiScript("DebugSampler", "Debug Sampler", "io.metersphere.plugin.DebugSampler.sampler.MsDebugSampler", script);
+        UiScript uiScript = new UiScript("DebugSampler", "调试请求", "io.metersphere.plugin.DebugSampler.sampler.MsDebugSampler", script);
         // 添加可选参数
         uiScript.setFormOption(getJson("/json/ui_form.json"));
 
