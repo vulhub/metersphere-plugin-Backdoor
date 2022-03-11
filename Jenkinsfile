@@ -40,7 +40,7 @@ pipeline {
                     withEnv(["TOKEN=$TOKEN"]) {
                         dir('target') {
                             sh script: '''
-                                release=$(curl -XPOST -H "Authorization:token $TOKEN" --data "{\\"tag_name\\": \\"${RELEASE}\\", \\"target_commitish\\": \\"${BRANCH_NAME}\\", \\"name\\": \\"${RELEASE}\\", \\"body\\": \\"\\", \\"draft\\": false, \\"prerelease\\": true}" https://api.github.com/repos/metersphere/metersphere-plugin-DebugSampler/releases)
+                                release=$(curl -XPOST -H "Authorization:token $TOKEN" --data "{\\"tag_name\\": \\"${RELEASE}\\", \\"target_commitish\\": \\"${BRANCH_NAME}\\", \\"name\\": \\"${RELEASE}\\", \\"body\\": \\"\\", \\"draft\\": false, \\"prerelease\\": false}" https://api.github.com/repos/metersphere/metersphere-plugin-DebugSampler/releases)
                                 id=$(echo "$release" | sed -n -e \'s/"id":\\ \\([0-9]\\+\\),/\\1/p\' | head -n 1 | sed \'s/[[:blank:]]//g\')
                                 curl -XPOST -H "Authorization:token $TOKEN" -H "Content-Type:application/octet-stream" --data-binary @metersphere-plugin-DebugSampler-${RELEASE}-jar-with-all-dependencies.jar https://uploads.github.com/repos/metersphere/metersphere-plugin-DebugSampler/releases/${id}/assets?name=metersphere-plugin-DebugSampler-${RELEASE}-jar-with-all-dependencies.jar
                             '''
