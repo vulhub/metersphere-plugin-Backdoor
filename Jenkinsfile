@@ -7,6 +7,9 @@ pipeline {
     options {
         quietPeriod(30)
     }
+    environment {
+        BRANCH_NAME = "master"
+    }
     stages {
         stage('Preparation') {
             steps {
