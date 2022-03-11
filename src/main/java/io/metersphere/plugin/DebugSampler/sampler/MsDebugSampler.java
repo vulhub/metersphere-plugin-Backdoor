@@ -8,6 +8,7 @@ import io.metersphere.plugin.DebugSampler.utils.ElementUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.sampler.DebugSampler;
 import org.apache.jorphan.collections.HashTree;
@@ -22,7 +23,7 @@ public class MsDebugSampler extends MsTestElement {
 
     }
 
-    private String clazzName = "io.metersphere.plugin.DebugSampler.sampler.MsDebugSampler";
+    private String clazzName = MsDebugSampler.class.getCanonicalName();
 
     @Override
     public void toHashTree(HashTree tree, List<MsTestElement> hashTree, MsParameter config) {
@@ -46,13 +47,9 @@ public class MsDebugSampler extends MsTestElement {
             debugSampler.setProperty("MS-ID", this.getId());
             String indexPath = this.getIndex();
             debugSampler.setProperty("MS-RESOURCE-ID", this.getResourceId() + "_" + ElementUtil.getFullIndexPath(this.getParent(), indexPath));
-            List<String> id_names = new LinkedList<>();
-            ElementUtil.getScenarioSet(this, id_names);
-            debugSampler.setProperty("MS-SCENARIO", JSON.toJSONString(id_names));
-
             // 自定义插件参数转换
             debugSampler.setEnabled(this.isEnable());
-            debugSampler.setName(this.getName());
+            debugSampler.setName(StringUtils.isNotEmpty(this.getName()) ? this.getName() : "DebugSampler");
             debugSampler.setProperty(TestElement.GUI_CLASS, "TestBeanGUI");
             debugSampler.setProperty(TestElement.TEST_CLASS, "DebugSampler");
             debugSampler.setProperty("displayJMeterProperties", false);

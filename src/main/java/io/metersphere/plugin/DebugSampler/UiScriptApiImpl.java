@@ -1,6 +1,7 @@
 package io.metersphere.plugin.DebugSampler;
 
 import com.alibaba.fastjson.JSON;
+import io.metersphere.plugin.DebugSampler.sampler.MsDebugSampler;
 import io.metersphere.plugin.DebugSampler.sampler.SelectParams;
 import io.metersphere.plugin.core.api.UiScriptApi;
 import io.metersphere.plugin.core.ui.PluginResource;
@@ -22,14 +23,14 @@ public class UiScriptApiImpl extends UiScriptApi {
         LogUtil.info("开始初始化脚本内容 ");
         List<UiScript> uiScripts = new LinkedList<>();
         String script = getJson("/json/ui.json");
-        UiScript uiScript = new UiScript("DebugSampler", "调试请求", "io.metersphere.plugin.DebugSampler.sampler.MsDebugSampler", script);
+        UiScript uiScript = new UiScript("DebugSampler", "调试请求", MsDebugSampler.class.getCanonicalName(), script);
         uiScript.setJmeterClazz("AbstractSampler");
         // 添加可选参数
         uiScript.setFormOption(getJson("/json/ui_form.json"));
 
         uiScripts.add(uiScript);
         LogUtil.info("初始化脚本内容结束 ");
-        return new PluginResource("DebugSampler-v1.0", uiScripts);
+        return new PluginResource("DebugSampler-v1.0.1", uiScripts);
     }
 
     @Override
