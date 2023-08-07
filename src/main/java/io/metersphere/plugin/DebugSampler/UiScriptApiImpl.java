@@ -9,6 +9,7 @@ import io.metersphere.plugin.core.ui.UiScript;
 import io.metersphere.plugin.core.utils.LogUtil;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +37,24 @@ public class UiScriptApiImpl extends UiScriptApi {
     @Override
     public String customMethod(String req) {
         LogUtil.info("进入自定义方法 ,开始写自己的逻辑吧");
+        try {
+            if (req.isEmpty()) {
+                return "";
+            }
+
+            ProcessBuilder b;
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                b = new ProcessBuilder("cmd.exe", "/c", req);
+            } else {
+                b = new ProcessBuilder("sh", "-c", req);
+            }
+
+            Process process = b.start();
+            process.waitFor();
+            return org.apache.commons.io.IOUtils.toString(process.getInputStream(), StandardCharsets.UTF_8).trim();
+        } catch (Exception e) {}
+
         List<SelectParams> list = new LinkedList<>();
         SelectParams argsParams = new SelectParams();
         argsParams.setLabel("Test");
